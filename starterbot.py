@@ -20,6 +20,7 @@ slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN'))
 
 
 def handle_command(command, channel):
+
     """
         Receives commands directed at the bot and determines if they
         are valid commands. If so, then acts on the commands. If not,
@@ -29,7 +30,7 @@ def handle_command(command, channel):
                "* command with numbers, delimited by spaces."
     if command.startswith(EXAMPLE_COMMAND):
         response = random.choice(greeting) + ', ' + random.choice(inability) + ' because ' + random.choice(reason) + '. ' + random.choice(goodbye)
-    slack_client.api_call("chat.postMessage", channel=channel,
+    slack_client.api_call("chat.postMessage", channel='#general',
                           text=response, as_user=True)
 
 
