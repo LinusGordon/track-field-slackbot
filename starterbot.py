@@ -1,6 +1,7 @@
 import os
 import time
 import random
+import re
 from slackclient import SlackClient
 
 
@@ -9,10 +10,10 @@ BOT_ID = os.environ.get("BOT_ID")
 
 # constants
 AT_BOT = "<@" + BOT_ID + ">"
-EXAMPLE_COMMAND = "do"
-greeting = ["hey guys", "hey", "hey boys", "hope everyones day is going well"]
-inability = ["I can't come to practice today", "I can't run today", "wont be able to make it today"]
-reason = ["I have an interview", "my parents are coming from out of town", "I have an essay due tomorrow", "I have a big test coming up"]
+EXCUSE_COMMAND = "excuse"
+greeting = ["hey guys", "hey", "hey boys", "hope everyones day is going well", "ayyy", "hello"]
+inability = ["I can't come to practice today", "I can't run today", "wont be able to make it today", "wont be at practice", "cant come today", "unfortunately I can't come today"]
+reason = ["I have an interview", "my parents are coming from out of town", "I have an essay due tomorrow", "I have a big test coming up", "this essay is ruining me", "I have a midterm", "I've got a lot of work", "my friend's visiting", "I'm not feeling well", "I'm sick", "I threw up earlier"]
 goodbye = ["but I'll see you guys at lift tomorrow", "see you tomorrow", "have a good practice", "see you boys later"]
 
 # instantiate Slack & Twilio clients
@@ -26,11 +27,16 @@ def handle_command(command, channel):
         are valid commands. If so, then acts on the commands. If not,
         returns back what it needs for clarification.
     """
-    response = "Not sure what you mean. Use the *" + EXAMPLE_COMMAND + \
-               "* command with numbers, delimited by spaces."
-    if command.startswith(EXAMPLE_COMMAND):
+    response = "haha, nah" #a generic response if something goes wrong
+    command = command.lower()
+    command = re.sub('[!?,.]', '', command) # remove those
+    if command.startswith('hey') or command.startswith('hi'):
+        response = "hey watsup"
+    if command.startswith('are you a bot'):
+        response = "no...of course I'm not a bot. I'm linus"
+    if command.startswith(EXCUSE_COMMAND):
         response = random.choice(greeting) + ', ' + random.choice(inability) + ' because ' + random.choice(reason) + '. ' + random.choice(goodbye)
-    slack_client.api_call("chat.postMessage", channel='#general',
+    slack_client.api_call("chat.postMessage", channel='#icantcometopractice',
                           text=response, as_user=True)
 
 
