@@ -20,7 +20,7 @@ goodbye = ["but I'll see you guys at lift tomorrow", "see you tomorrow", "have a
 slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN'))
 
 
-def handle_command(command, channel):
+def handle_command(command, channel): 
 
     """
         Receives commands directed at the bot and determines if they
