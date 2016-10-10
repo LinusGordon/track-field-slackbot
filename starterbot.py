@@ -32,9 +32,9 @@ def handle_command(command, channel):
     command = re.sub('[!?,.]', '', command) # remove those
     if command.startswith('hey') or command.startswith('hi'):
         response = "hey watsup"
-    if command.startswith('are you a bot'):
+    if command.endswith('bot'):
         response = "no...of course I'm not a bot. I'm linus"
-    if command.startswith(EXCUSE_COMMAND):
+    if command.endswith(EXCUSE_COMMAND):
         response = random.choice(greeting) + ', ' + random.choice(inability) + ' because ' + random.choice(reason) + '. ' + random.choice(goodbye)
     slack_client.api_call("chat.postMessage", channel='#icantcometopractice',
                           text=response, as_user=True)
